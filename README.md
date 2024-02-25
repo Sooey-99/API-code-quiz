@@ -29,6 +29,4 @@ To take the timed quiz on JavaScript fundamentals:
 This project is licensed under the [MIT - see the [LICENSE](LICENSE) file for details.
 
 ## Images
-![img 1](<Screenshot 2024-02-11 at 19.40.07.png>)
-![img 2](<Screenshot 2024-02-11 at 19.43.30.png>)
-![img 3](<Screenshot 2024-02-11 at 19.45.18.png>)
+![alt text](<./assets/Screen_shots/Screenshot 2024-02-25 at 19.27.41.png>) ![alt text](<./assets/Screen_shots/Screenshot 2024-02-25 at 19.27.59.png>) ![alt text](<./assets/Screen_shots/Screenshot 2024-02-25 at 19.28.15.png>)
