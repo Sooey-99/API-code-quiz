@@ -1,35 +1,42 @@
 // Variables
 const startBtn = document.querySelector("#start");
 const startScreen = document.querySelector("#start-screen");
-const submitBtn = document.querySelector("#submit");
+const submit = document.querySelector(".submit");
 const questionPage = document.querySelector("#questions");
 const questionTitle = document.querySelector("#question-title");
 const questionChoices = document.querySelector("#choices");
 const timerBtn = document.querySelector("#time");
 const endScreen = document.querySelector("#end-screen");
-
+const submitBtn = document.querySelector("#submit");
 let timerCount = 60;
 let intervalID;
 let questionIndex = 0;
 let score = 0;
 
-// Event listeners
+// start, display first question and run timer func
 startBtn.addEventListener("click", start);
-submitBtn.addEventListener("click", submitInitials);
 
-// Start the quiz
 function start() {
-    toggleVisibility(startScreen, questionPage);
+
+    // start / hide
+    startScreen.classList.toggle("start")
+    startScreen.classList.toggle("hide")
+
+    // show q title
+    questionPage.classList.toggle("hide")
+    questionPage.classList.toggle("start")
+
     startTimer();
     timeRemaining();
     nextQuestion();
 }
 
-// Timer functions
+// timer func
 function startTimer() {
     intervalID = setInterval(timeRemaining, 1000);
 }
 
+// count down func
 function timeRemaining() {
     timerBtn.textContent = timerCount;
     if (timerCount > 0) {
@@ -39,27 +46,35 @@ function timeRemaining() {
     }
 }
 
-// Quiz logic
+// next q func
 function nextQuestion() {
+    // clean existing answers
     questionChoices.innerHTML = "";
 
     if (questionIndex < questionList.length) {
         let question = questionList[questionIndex];
         questionTitle.textContent = question.title;
 
-        for (let i = 0; i < question.choices.length; i++) {
+            // create buttons for answers
+            for (i = 0; i < question.choices.length; i++) {
             let answerBtn = document.createElement("button");
             answerBtn.textContent = question.choices[i];
             questionChoices.appendChild(answerBtn);
+
+            // listen for answer buttons clicked.
             answerBtn.addEventListener("click", checkAnswer);
-        }
+            }
     } else {
+        // end quiz
+        clearInterval(intervalID);
         endQuiz();
     }
 }
 
 function checkAnswer(event) {
-    let selectedAnswerIndex = event.target.dataset.index;
+    // get selected answer index from the event
+    let selectedAnswerIndex = event.target.dataset.index; // assuming you set data-index on your buttons
+    // get correct answer index
     let correctAnswerIndex = questionList[questionIndex].correctAnswer;
 
     if (selectedAnswerIndex === correctAnswerIndex) {
@@ -71,38 +86,49 @@ function checkAnswer(event) {
     nextQuestion();
 }
 
+// toggle between start & hide
 function endQuiz() {
-    clearInterval(intervalID);
-    toggleVisibility(endScreen, questionPage);
+    endScreen.classList.toggle("start");
+    endScreen.classList.toggle("hide");
+
+    endScreen.classList.toggle("hide");
+    endScreen.classList.toggle("start");
+
+    questionPage.classList.add("hide");
+    endScreen.classList.remove("hide");
     document.getElementById("final-score").textContent = score;
 }
 
-// Handle initials submission
-function submitInitials() {
+// event listener for initials for submit button 
+submitBtn.addEventListener("click", function () {
     const initials = document.getElementById("initials").value.trim();
 
     if (initials !== "") {
+        // handle the submitted initials and score
         addHighscore(initials, score);
+
+        // direct to scores pg
         window.location.href = "highscores.html";
     } else {
         alert("Please enter your initials.");
     }
-}
+});
 
-// Submit initials and handle completion
+// submit initials and handle completion
 function addHighscore(initials, score) {
+    
+    // local storage highscores pulled and turned into js object
     const highscores = JSON.parse(localStorage.getItem("highscores")) || [];
-    const newScore = { initials, score };
-    highscores.push(newScore);
-    highscores.sort((a, b) => b.score - a.score);
-    highscores.splice(5);
-    localStorage.setItem("highscores", JSON.stringify(highscores));
-}
 
-// Helper function to toggle visibility
-function toggleVisibility(show, hide) {
-    show.classList.remove("hide");
-    show.classList.add("start");
-    hide.classList.add("hide");
-    hide.classList.remove("start");
+    const newScore = { initials: initials, score: score };
+    highscores.push(newScore);
+
+    // high scores sorted in descending order
+    highscores.sort((a, b) => b.score - a.score);
+
+    // show top 5 high scores only
+    highscores.splice(5);
+
+    // high scores to localStorage
+    localStorage.setItem("highscores", JSON.stringify(highscores));
 }

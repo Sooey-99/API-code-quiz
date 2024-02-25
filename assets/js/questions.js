@@ -1,4 +1,11 @@
+// variables for questions
+
 let questionList = [
+    {
+        title: "What is the purpose of the document.getElementById() method in JavaScript?",
+        choices: ["a. It gets the value of an input field", "b. It retrieves an HTML element by its ID", "c. It sets the value of an attribute", "d. It creates a new HTML element"],
+        correctAnswer: 1,
+    },
     {
         title: "What is the purpose of the CSS 'margin' property?",
         choices: [
@@ -38,15 +45,5 @@ let questionList = [
             "d. Adds a shadow to an element"
         ],
         correctAnswer: 1,
-    },
-    {
-        title: "How do you comment in JavaScript?",
-        choices: [
-            "a. <!-- This is a comment -->",
-            "b. // This is a comment",
-            "c. /* This is a comment */",
-            "d. -- This is a comment --"
-        ],
-        correctAnswer: 2,
     },
 ];
